@@ -2,14 +2,27 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import  { useEffect } from 'react'
+import  { useEffect,useState } from 'react'
 
 
 const Home: NextPage = (props) => {
-    const {  connecting, publicKey } = useWallet();
-    useEffect(() => {
-    console.log(connecting)
-    },[publicKey])
+    
+// @state
+const [connected,  setConnected] = useState(Boolean)
+const {connecting, publicKey } = useWallet();
+//@useEffect   
+useEffect(() => {
+console.log(connecting)
+setConnected(connecting)
+},[publicKey])
+
+//connecte gore hansisa funksiyani render etsen publickeye gore et, ve birde connecting i gore yox onu state e at 
+// o state e gorede render et asagidaki kimi
+
+useEffect(() => {
+
+},[publicKey,connected])
+  
    return (
     <>
       <Head>
@@ -25,7 +38,7 @@ const Home: NextPage = (props) => {
      <p>
      {publicKey  ? <>Your address: {publicKey.toBase58()}</> : null}
       <br />
-     Connect: {connecting ? "true" : "false"}
+     Connect: {connected ? "true" : "false"}
     
     {/* dizayni node-modulesdan deyis @solana/ wallet-adapter-react-ui / styles.css */}
      </p>
